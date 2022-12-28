@@ -7,7 +7,7 @@ import { FaSmile } from 'react-icons/fa';
 const PostTimeline = () => {
     return (
         <div>
-            <div className='my-4'>
+            <div className='my-4 rounded-lg shadow-lg border p-4'>
                 <div className='flex gap-2 my-2'>
                
                     <img alt="" src="https://source.unsplash.com/100x100/?portrait" className="object-cover w-12 h-12 rounded-full shadow bg-gray-500" />

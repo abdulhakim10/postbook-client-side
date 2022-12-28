@@ -1,12 +1,26 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { BiSearchAlt2 } from 'react-icons/bi';
+import { FaUserCircle } from 'react-icons/fa';
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
+import { AuthContext } from '../../../contexts/AuthProvider';
 
 
 
 const NavigationBar = () => {
     const [open, setOpen] = useState(false);
+    const {user, logOut} = useContext(AuthContext);
+    const navigate = useNavigate();
+
+    // logout handler
+    const handleLogOut = () => {
+        logOut()
+          .then(() => { 
+            navigate('/');
+          })
+          .catch(err => console.error(err))
+    
+      }
     return (
         <div>
         <header className="p-4">
@@ -27,7 +41,7 @@ const NavigationBar = () => {
             <h2 className="ml-0 md:text-3xl font-semibold text-lg">Postbook</h2>
 		</Link>
 		<div className="flex items-center md:space-x-4">
-			<div className="relative">
+			<div className="relative hidden lg:block">
 				<span className="absolute inset-y-0 left-0 flex items-center pl-2">
 					<button type="submit" title="Search" className="p-1 focus:outline-none focus:ring">
                         <BiSearchAlt2 className='text-xl'/>
@@ -35,7 +49,15 @@ const NavigationBar = () => {
 				</span>
 				<input type="search" name="Search" placeholder="Search..." className="w-32 py-2 pl-10 text-sm rounded-md sm:w-auto focus:outline-none bg-gray-300 focus:bg-gray-300" />
 			</div>
-			<Link to="/login"><button type="button" className="hidden px-6 py-2 font-semibold rounded lg:block bg-blue-400 text-white">Log in</button></Link>
+			{user?.uid ? 
+            <button onClick={handleLogOut} type="button" className="hidden px-6 py-2 font-semibold rounded lg:block bg-blue-400 hover:bg-blue-500 text-white">Logout</button>
+            :
+			<Link to="/login"><button type="button" className=" px-4 py-1.5 font-semibold rounded  bg-blue-400 hover:bg-blue-500 text-white">Log in</button></Link>}
+        {user?.uid ?
+        <img alt="" src={user?.photoURL} className="object-cover w-12 h-12 rounded-full shadow bg-gray-500 mx-2" />
+    :
+    <FaUserCircle className='text-5xl text-gray-400'/>
+    }
 		</div>
         <div onClick={() => setOpen(!open)} className='h-8 w-8 md:hidden flex'>
             {

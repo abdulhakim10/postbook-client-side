@@ -1,15 +1,15 @@
-import React, { useContext, useState } from 'react';
+import React, {  useContext, useState } from 'react';
 import { useForm } from "react-hook-form";
 import toast from 'react-hot-toast';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-// import { AuthContext } from '../../../contexts/AuthProvider';
+import { AuthContext } from '../../../contexts/AuthProvider';
 // import useToken from '../../../hooks/useToken';
 
 const Login = () => {
-    // const { logIn, googleSignIn } = useContext(AuthContext);
+    const { logIn, googleSignIn } = useContext(AuthContext);
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const [loginError, setLoginError] = useState("");
-    const [loginUserEmail, setLoginUserEmail] = useState("");
+    // const [loginUserEmail, setLoginUserEmail] = useState("");
     // const [token] = useToken(loginUserEmail);
     const navigate = useNavigate();
     const location = useLocation();
@@ -28,8 +28,8 @@ const Login = () => {
         setLoginError("");
 
         try {
-        //    await logIn(email, password);
-           await setLoginUserEmail(email);
+           await logIn(email, password);
+        //    await setLoginUserEmail(email);
            toast.success('Successfully logged in');
         }
         catch (error) {
@@ -43,38 +43,38 @@ const Login = () => {
 
 
     // google login handler
-    // const googleLogin = () => {
-    //     googleSignIn()
-    //         .then(result => {
-    //             const email = result.user.email;
-    //             // console.log(result.user.email)
-    //             setLoginUserEmail(email);
-    //             toast.success('Successfully logged in');
+    const googleLogin = () => {
+        googleSignIn()
+            .then(result => {
+                const email = result.user.email;
+                console.log(result.user.email)
+                // setLoginUserEmail(email);
+                toast.success('Successfully logged in');
 
-    //             const data = result.user
-    //             // send to db
-    //             const user = {
-    //                 name: data.displayName,
-    //                 email: data.email,
-    //                 image: data.photoURL,
-    //                 type: "Buyer"
-    //             }
+                // const data = result.user
+                // // send to db
+                // const user = {
+                //     name: data.displayName,
+                //     email: data.email,
+                //     image: data.photoURL,
+                //     type: "Buyer"
+                // }
 
-    //             fetch('https://swapcars-assignment12-server.vercel.app/users', {
-    //                 method: 'POST',
-    //                 headers: {
-    //                     'content-type': 'application/json'
-    //                 },
-    //                 body: JSON.stringify(user)
-    //             })
-    //                 .then(res => res.json())
-    //                 .then(data => {
-    //                     // const email = user.email;
-    //                     // setLoginUserEmail(email);
-    //                 })
-    //         })
+                // fetch('https://swapcars-assignment12-server.vercel.app/users', {
+                //     method: 'POST',
+                //     headers: {
+                //         'content-type': 'application/json'
+                //     },
+                //     body: JSON.stringify(user)
+                // })
+                //     .then(res => res.json())
+                //     .then(data => {
+                //         // const email = user.email;
+                //         // setLoginUserEmail(email);
+                //     })
+            })
 
-    // }
+    }
     return (
         <div className='flex justify-center'>
             <div className='w-96 p-10 border-2  border-slate-900 rounded-lg m-8'>
@@ -109,7 +109,7 @@ const Login = () => {
                 </form>
                 <p className='mt-4'>New to Postbook? Please <Link to='/signup'><span className='text-blue-500 font-semibold'>Create New Account</span></Link></p>
                 <div className="divider">OR</div>
-                <button className='btn px-4 py-2 bg-slate-900 text-white rounded-md w-full max-w-xs mt-4'>CONTINUE WITH GOOGLE</button>
+                <button onClick={googleLogin} className='btn px-4 py-2 bg-slate-900 text-white rounded-md w-full max-w-xs mt-4'>CONTINUE WITH GOOGLE</button>
             </div>
         </div>
     );
