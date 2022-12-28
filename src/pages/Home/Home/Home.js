@@ -1,9 +1,20 @@
 import React from 'react';
+import LeftSection from '../LeftSection/LeftSection';
+import PostTimeline from '../PostTimeline/PostTimeline';
+import RightSection from '../RightSection/RightSection';
 
 const Home = () => {
     return (
-        <div>
-            <h2 className="text-3xl font-semibold">Home</h2>
+        <div className='md:grid grid-cols-4 gap-4 m-4'>
+            <div className='md:block hidden'>
+            <LeftSection/>
+            </div>
+            <div className=' col-span-2'>
+            <PostTimeline/>
+            </div>
+            <div className='md:block hidden'>
+            <RightSection/>
+            </div>
         </div>
     );
 };
