@@ -47,16 +47,16 @@ const NavigationBar = () => {
                         <BiSearchAlt2 className='text-xl'/>
 					</button>
 				</span>
-				<input type="search" name="Search" placeholder="Search..." className="w-32 py-2 pl-10 text-sm rounded-md sm:w-auto focus:outline-none bg-gray-300 focus:bg-gray-300" />
+				<input type="search" name="Search" placeholder="Search..." className="w-32 py-1.5 pl-10 text-sm rounded-md sm:w-auto focus:outline-none bg-gray-300 focus:bg-gray-300" />
 			</div>
 			{user?.uid ? 
-            <button onClick={handleLogOut} type="button" className="hidden px-6 py-2 font-semibold rounded lg:block bg-blue-400 hover:bg-blue-500 text-white">Logout</button>
+            <button onClick={handleLogOut} type="button" className="hidden px-3 py-1 font-semibold rounded lg:block bg-blue-400 hover:bg-blue-500 text-white">Logout</button>
             :
-			<Link to="/login"><button type="button" className=" px-4 py-1.5 font-semibold rounded  bg-blue-400 hover:bg-blue-500 text-white">Log in</button></Link>}
-        {user?.uid ?
-        <img alt="" src={user?.photoURL} className="object-cover w-12 h-12 rounded-full shadow bg-gray-500 mx-2" />
+			<Link to="/login"><button type="button" className=" px-3 py-1 font-semibold rounded  bg-blue-400 hover:bg-blue-500 text-white">Log in</button></Link>}
+        {user?.photoURL ?
+        <img alt="" src={user?.photoURL} className="object-cover w-9 h-9 rounded-full shadow bg-gray-500 mx-2" />
     :
-    <FaUserCircle className='text-5xl text-gray-400'/>
+    <FaUserCircle className='text-4xl text-gray-400'/>
     }
 		</div>
         <div onClick={() => setOpen(!open)} className='h-8 w-8 md:hidden flex'>

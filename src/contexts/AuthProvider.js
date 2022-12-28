@@ -23,11 +23,11 @@ const AuthProvider = ({children}) => {
     const [loading, setLoading] = useState(true);
 
     // create user with email-password
-    const signUp = async(email, password, name, newImage) => {
+    const signUp = async(email, password, name) => {
 
         const profile = {
             displayName: name,
-            photoURL: newImage
+            // photoURL: newImage
         }
         setLoading(true);
         await createUserWithEmailAndPassword(auth, email, password);

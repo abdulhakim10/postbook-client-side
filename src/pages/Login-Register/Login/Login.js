@@ -1,3 +1,4 @@
+import { async } from '@firebase/util';
 import React, {  useContext, useState } from 'react';
 import { useForm } from "react-hook-form";
 import toast from 'react-hot-toast';
@@ -31,6 +32,7 @@ const Login = () => {
            await logIn(email, password);
         //    await setLoginUserEmail(email);
            toast.success('Successfully logged in');
+           navigate(from, { replace: true });
         }
         catch (error) {
             console.log(error.message);
@@ -43,36 +45,37 @@ const Login = () => {
 
 
     // google login handler
-    const googleLogin = () => {
-        googleSignIn()
-            .then(result => {
-                const email = result.user.email;
-                console.log(result.user.email)
-                // setLoginUserEmail(email);
-                toast.success('Successfully logged in');
+    const googleLogin = async() => {
+        await googleSignIn();
+        toast.success('Successfully logged in');
+                navigate(from, { replace: true });
+            // .then(result => {
+            //     const email = result.user.email;
+            //     console.log(email)
+            //     // setLoginUserEmail(email);
+                
+            //     // const data = result.user
+            //     // // send to db
+            //     // const user = {
+            //     //     name: data.displayName,
+            //     //     email: data.email,
+            //     //     image: data.photoURL,
+            //     //     type: "Buyer"
+            //     // }
 
-                // const data = result.user
-                // // send to db
-                // const user = {
-                //     name: data.displayName,
-                //     email: data.email,
-                //     image: data.photoURL,
-                //     type: "Buyer"
-                // }
-
-                // fetch('https://swapcars-assignment12-server.vercel.app/users', {
-                //     method: 'POST',
-                //     headers: {
-                //         'content-type': 'application/json'
-                //     },
-                //     body: JSON.stringify(user)
-                // })
-                //     .then(res => res.json())
-                //     .then(data => {
-                //         // const email = user.email;
-                //         // setLoginUserEmail(email);
-                //     })
-            })
+            //     // fetch('https://swapcars-assignment12-server.vercel.app/users', {
+            //     //     method: 'POST',
+            //     //     headers: {
+            //     //         'content-type': 'application/json'
+            //     //     },
+            //     //     body: JSON.stringify(user)
+            //     // })
+            //     //     .then(res => res.json())
+            //     //     .then(data => {
+            //     //         // const email = user.email;
+            //     //         // setLoginUserEmail(email);
+            //     //     })
+            // })
 
     }
     return (
@@ -108,7 +111,7 @@ const Login = () => {
                     
                 </form>
                 <p className='mt-4'>New to Postbook? Please <Link to='/signup'><span className='text-blue-500 font-semibold'>Create New Account</span></Link></p>
-                <div className="divider">OR</div>
+                <div className="text-center mt-4 text-xl font-semibold">Or</div>
                 <button onClick={googleLogin} className='btn px-4 py-2 bg-slate-900 text-white rounded-md w-full max-w-xs mt-4'>CONTINUE WITH GOOGLE</button>
             </div>
         </div>
