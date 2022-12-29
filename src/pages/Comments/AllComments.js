@@ -7,7 +7,7 @@ const AllComments = ({post}) => {
     const [comments, setComments] = useState([]);
     
     useEffect(() => {
-        fetch('http://localhost:5000/comments')
+        fetch(`http://localhost:5000/comments/${post._id}`)
         .then(res => res.json())
         .then(data => {
             setComments(data)
@@ -23,11 +23,11 @@ const AllComments = ({post}) => {
     //     }
     // })
 
-    const allComments = comments.filter(acm => acm.postId === post._id);
+    // const allComments = comments.filter(acm => acm.postId === post._id);
     return (
         <div>
             {
-                allComments?.map(comment => <CommentCard 
+                comments?.map(comment => <CommentCard 
                     key={comment._id}
                     comment={comment}
                     />)

@@ -1,7 +1,5 @@
 import React from 'react';
-// import LeftSection from '../LeftSection/LeftSection';
 import PostTimeline from '../PostTimeline/PostTimeline';
-// import RightSection from '../RightSection/RightSection';
 
 const Home = () => {
     return (
