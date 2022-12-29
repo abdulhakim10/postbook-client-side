@@ -30,10 +30,10 @@ const NavigationBar = () => {
 				<Link rel="noopener noreferrer" to="/" className="flex items-center px-4 -mb-1 border-b-2 border-transparent ">Home</Link>
 			</li>
 			<li className="flex justify-center">
-				<Link rel="noopener noreferrer" to="/" className="flex items-center px-4 -mb-1 border-b-2 border-transparent">Media</Link>
+				<Link rel="noopener noreferrer" to="/media" className="flex items-center px-4 -mb-1 border-b-2 border-transparent">Media</Link>
 			</li>
 			<li className="flex justify-center">
-				<Link rel="noopener noreferrer" to="" className="flex items-center px-4 -mb-1 border-b-2 border-transparent">About</Link>
+				<Link rel="noopener noreferrer" to="/about" className="flex items-center px-4 -mb-1 border-b-2 border-transparent">About</Link>
 			</li>
 		</ul>
 		<Link rel="noopener noreferrer" to="" aria-label="Back to homepage" className="flex items-center p-2">
