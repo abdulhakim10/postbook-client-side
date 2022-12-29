@@ -5,6 +5,8 @@ import { ImImages } from 'react-icons/im';
 import { FaSmile } from 'react-icons/fa';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../../../contexts/AuthProvider';
+import moment from 'moment/moment';
+import { toast } from 'react-hot-toast';
 
 
 const PostTimeline = () => {
@@ -37,11 +39,16 @@ const PostTimeline = () => {
         const newImage = img?.data?.url;
         console.log(newImage);
 
+        const time = moment().format('MMMM Do YYYY, h:mm:ss a');
+
         // send to db
         const post = {
+            time,
             text,
             img: newImage,
-            email: user.email
+            email: user.email,
+            author: user.displayName,
+            authorImg: user.photoURL
         }
         
         fetch("http://localhost:5000/posts", {
@@ -54,6 +61,9 @@ const PostTimeline = () => {
       .then(res => res.json())
       .then(data => {
         console.log(data);
+        if(data.acknowledged === true){
+            toast.success('Post successfully created!')
+        }
       });
       reset();
         
