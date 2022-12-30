@@ -1,4 +1,5 @@
 import React from 'react';
+import PeopleUMKn from '../PepoleUMKn/PeopleUMKn';
 import PostTimeline from '../PostTimeline/PostTimeline';
 
 const Home = () => {
@@ -10,6 +11,7 @@ const Home = () => {
             <div className=' col-span-2'>
             <PostTimeline/>
             </div>
+            <PeopleUMKn/>
             {/* <div className='md:block hidden'>
             <RightSection/>
             </div> */}

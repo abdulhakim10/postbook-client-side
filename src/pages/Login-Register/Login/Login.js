@@ -1,4 +1,3 @@
-import { async } from '@firebase/util';
 import React, {  useContext, useState } from 'react';
 import { useForm } from "react-hook-form";
 import toast from 'react-hot-toast';
@@ -44,40 +43,37 @@ const Login = () => {
     }
 
 
-    // google login handler
+    // google log in handler
     const googleLogin = async() => {
-        await googleSignIn();
-        toast.success('Successfully logged in');
+        await googleSignIn()
+        .then(result => {
+            // const email = result.user.email;
+            // setSignupUserEmail(email);
+            toast.success('Successfully logged in');
+            const data = result.user
+            // send to db
+            const user = {
+                name: data.displayName,
+                email: data.email,
+            }
+    
+            fetch('https://postbook-server-side.vercel.app/users', {
+                method: 'POST',
+                headers: {
+                    'content-type' : 'application/json'
+                },
+                body: JSON.stringify(user)
+            })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                // const email = user.email;
+                // setSignupUserEmail(email);
                 navigate(from, { replace: true });
-            // .then(result => {
-            //     const email = result.user.email;
-            //     console.log(email)
-            //     // setLoginUserEmail(email);
-                
-            //     // const data = result.user
-            //     // // send to db
-            //     // const user = {
-            //     //     name: data.displayName,
-            //     //     email: data.email,
-            //     //     image: data.photoURL,
-            //     //     type: "Buyer"
-            //     // }
-
-            //     // fetch('https://swapcars-assignment12-server.vercel.app/users', {
-            //     //     method: 'POST',
-            //     //     headers: {
-            //     //         'content-type': 'application/json'
-            //     //     },
-            //     //     body: JSON.stringify(user)
-            //     // })
-            //     //     .then(res => res.json())
-            //     //     .then(data => {
-            //     //         // const email = user.email;
-            //     //         // setLoginUserEmail(email);
-            //     //     })
-            // })
-
-    }
+            })
+        })
+            
+        }
     return (
         <div className='flex justify-center'>
             <div className='w-96 p-10 border-2  border-slate-900 rounded-lg m-8'>

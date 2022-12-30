@@ -8,15 +8,18 @@ import NavigationBar from '../Shared/NavigationBar/NavigationBar';
 const Main = () => {
     return (
         <div>
+            <div className='sticky top-0 bg-white'>
+                
             <NavigationBar/>
-            <div className='md:grid grid-cols-4 gap-4 m-4'>
-            <div className='md:block hidden'>
+            </div>
+            <div className='md:grid lg:grid grid-cols-4 gap-4 m-4'>
+            <div className='md:block lg:block hidden'>
             <LeftSection/>
             </div>
             <div className=' col-span-2'>
             <Outlet/>
             </div>
-            <div className='md:block hidden'>
+            <div className='md:block lg:block hidden'>
             <RightSection/>
             </div>
         </div>

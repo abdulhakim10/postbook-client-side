@@ -10,18 +10,14 @@ import { toast } from 'react-hot-toast';
 
 
 const PostTimeline = () => {
-
+    const {newUser} = useContext(AuthContext);
     const {user} = useContext(AuthContext);
     const {register, handleSubmit, reset} = useForm();
     const imageHostKey = process.env.REACT_APP_imagebb_key;
 
     const postHandler = async(data) => {
-        // event.preventDefault();
-        // const form = event.target;
-        // const text = form.text.value;
-        // form.reset();
+        
         const text = data.ptext;
-        // const image = data.image;
         console.log(text);
 
         // file send to imgBB
@@ -30,7 +26,7 @@ const PostTimeline = () => {
         formData.append('image', image);
         const url = `https://api.imgbb.com/1/upload?key=${imageHostKey}`
         
-        
+        console.log(url)
         const res = await fetch(url, {
             method: 'POST',
             body: formData
@@ -51,7 +47,7 @@ const PostTimeline = () => {
             authorImg: user.photoURL
         }
         
-        fetch("http://localhost:5000/posts", {
+        fetch("https://postbook-server-side.vercel.app/posts", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -73,7 +69,7 @@ const PostTimeline = () => {
             <form onSubmit={handleSubmit(postHandler)} className='my-4 rounded-lg shadow-lg border p-4'>
                 <div className='flex gap-2 my-2'>
                
-                    <img alt="" src="https://source.unsplash.com/100x100/?portrait" className="object-cover w-12 h-12 rounded-full shadow bg-gray-500" />
+                    <img alt="" src={newUser?.photoURL} className="object-cover w-12 h-12 rounded-full shadow bg-gray-500" />
                     
                 
                     <textarea {...register('ptext', {

@@ -1,22 +1,10 @@
-// import { useQuery } from '@tanstack/react-query';
-import React, { useEffect, useState } from 'react';
 import CommentCard from './CommentCard';
 
-const AllComments = ({post}) => {
+const AllComments = ({post, comments}) => {
 
-    const [comments, setComments] = useState([]);
-    
-    useEffect(() => {
-        fetch(`http://localhost:5000/comments/${post._id}`)
-        .then(res => res.json())
-        .then(data => {
-            setComments(data)
-        })
-    },[comments])
-    // const {data : comments = []} = useQuery({
     //     queryKey: ['comments'],
     //     queryFn: async() => {
-    //         const res = await fetch('http://localhost:5000/comments');
+    //         const res = await fetch('https://postbook-server-side.vercel.app/comments');
     //         const data = await res.json();
     //         return data;
            

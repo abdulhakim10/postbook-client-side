@@ -20,6 +20,7 @@ const googleProvider = new GoogleAuthProvider();
 
 const AuthProvider = ({children}) => {
     const [user, setUser] = useState(null);
+    const [newUser, setNewUser] =  useState(null);
     const [loading, setLoading] = useState(true);
 
     // create user with email-password
@@ -55,6 +56,17 @@ const AuthProvider = ({children}) => {
     }
 
 
+    // updated user
+    useEffect(() => {
+        fetch(`https://postbook-server-side.vercel.app/user?email=${user?.email}`)
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+            setNewUser(data);
+        })
+    },[user?.email]);
+
+
     // observer
     useEffect(() => {
        const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -67,6 +79,7 @@ const AuthProvider = ({children}) => {
 
     const authInfo = {
         user,
+        newUser,
         signUp,
         logIn,
         googleSignIn,

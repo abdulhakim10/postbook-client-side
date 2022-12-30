@@ -1,4 +1,4 @@
-import React, { useContext, useState} from 'react';
+import React, { useContext, } from 'react';
 import { useForm } from "react-hook-form";
 import toast from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
@@ -10,99 +10,79 @@ const SignUp = () => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
     // const [data, setData] = useState("");
     const { signUp, googleSignIn } = useContext(AuthContext);
-    const [signupUserEmail, setSignupUserEmail] = useState("");
+    // const [signupUserEmail, setSignupUserEmail] = useState("");
     // const [token] = useToken(signupUserEmail);
     const navigate = useNavigate();
-
-    // const imageHostKey = process.env.REACT_APP_imagebb_key;
-
 
     // if(token){
     //     navigate('/');
     // }
 
-    // signup handler with imgbb
+    // signup handler with name
     const handleSignup = async (data) => {
         const email = data.email;
         const password = data.password;
         const name = data.name;
         
-
-        // file send to imgBB
-        // const image = data.image[0];
-        // const formData = new FormData();
-        // formData.append('image', image);
-        // const url = `https://api.imgbb.com/1/upload?key=${imageHostKey}`
-        
-        
-        // const res = await fetch(url, {
-        //     method: 'POST',
-        //     body: formData
-        // });
-        // const img = await res.json();
-        // const newImage = img.data.url;
-
-
-            // signup with email-password and name-image
+            // signup with email-password and name
         await signUp(email, password, name);
         toast.success('User create successfully');
         reset();
         navigate('/');
         
         // send to db
-        // const user = {
-        //     name,
-        //     email,
-        //     // image: newImage,
-        // }
+        const user = {
+            displayName :name,
+            email,
+            
+        }
 
-        // fetch('https://swapcars-assignment12-server.vercel.app/users', {
-        //     method: 'POST',
-        //     headers: {
-        //         'content-type' : 'application/json'
-        //     },
-        //     body: JSON.stringify(user)
-        // })
-        // .then(res => res.json())
-        // .then(data => {
-        //     console.log(data);
-        //     const email = user.email
-        //     setSignupUserEmail(email);
-        //     // getToken(email);
-        // })
+        fetch('https://postbook-server-side.vercel.app/users', {
+            method: 'POST',
+            headers: {
+                'content-type' : 'application/json'
+            },
+            body: JSON.stringify(user)
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+            // const email = user.email
+            // setSignupUserEmail(email);
+            // getToken(email);
+        })
     }
 
 
     // google log in handler
     const googleLogin = async() => {
-    await googleSignIn();
-    navigate('/');
-    // .then(result => {
-    //     const email = result.user.email;
-    //     setSignupUserEmail(email);
-    //     toast.success('Successfully logged in');
-    //     const data = result.user
-    //     // send to db
-    //     const user = {
-    //         name: data.displayName,
-    //         email: data.email,
-    //         image: data.photoURL,
-    //         type : "Buyer"
-    //     }
+    await googleSignIn()
+    .then(result => {
+        // const email = result.user.email;
+        // setSignupUserEmail(email);
+        toast.success('Successfully logged in');
+        const data = result.user
+        // send to db
+        const user = {
+            name: data.displayName,
+            email: data.email,
+        }
 
-    //     fetch('https://swapcars-assignment12-server.vercel.app/users', {
-    //         method: 'POST',
-    //         headers: {
-    //             'content-type' : 'application/json'
-    //         },
-    //         body: JSON.stringify(user)
-    //     })
-    //     .then(res => res.json())
-    //     .then(data => {
-    //         const email = user.email;
-    //         setSignupUserEmail(email);
-    //     })
-    // })
+        fetch('https://postbook-server-side.vercel.app/users', {
+            method: 'POST',
+            headers: {
+                'content-type' : 'application/json'
+            },
+            body: JSON.stringify(user)
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+            // const email = user.email;
+            // setSignupUserEmail(email);
+            navigate('/')
+        })
+    })
         
     }
 

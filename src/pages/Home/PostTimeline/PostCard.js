@@ -7,7 +7,7 @@ const PostCard = () => {
                 <div className="flex space-x-4">
                     <img alt="" src="https://source.unsplash.com/100x100/?portrait" className="object-cover w-12 h-12 rounded-full shadow bg-gray-500" />
                     <div className="flex flex-col space-y-1">
-                        <span rel="noopener noreferrer" href="#" className="text-sm font-semibold">Leroy Jenkins</span>
+                        <span rel="noopener noreferrer"  className="text-sm font-semibold">Leroy Jenkins</span>
                         <span className="text-xs text-gray-400">4 hours ago</span>
                     </div>
                 </div>
