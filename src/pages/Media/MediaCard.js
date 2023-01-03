@@ -30,16 +30,30 @@ const MediaCard = ({ post }) => {
     },[comments, post._id])
 
     // like handler
-    const handleLike = () => {
+    const handleLike = id => {
         setLike(like + 1)
-
         const likeInfo = {
             email: user.email,
-            name: user.displayName,
             postId: post._id,
             like
         }
         console.log(likeInfo)
+
+
+        // set like key on the post
+        fetch(`https://postbook-server-side.vercel.app/like/${id}`, {
+            method: 'PUT',
+            headers: {
+                'content-type' : 'application/json'
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
+            if(data.modifiedCount > 0){
+                toast.success('Liked..!');
+            }
+        })
 
 
         // send to db
@@ -54,7 +68,7 @@ const MediaCard = ({ post }) => {
             .then(liked => {
                 console.log(liked)
                 if (liked.acknowledged === true) {
-                    toast.success('Liked..!')
+                    // toast.success('Liked..!')
                     setClick(true)
                 }
             })
@@ -68,6 +82,7 @@ const MediaCard = ({ post }) => {
                 setLike(data.length)
             })
     }, [post._id])
+
 
     // comment handler
     const handleComment = data => {
@@ -142,7 +157,7 @@ const MediaCard = ({ post }) => {
                         </button>
 
                         {click === false ?
-                            <><button onClick={handleLike} type="button" className={`flex items-center p-1 space-x-1.5 `}>
+                            <><button onClick={() => handleLike(post._id)} type="button" className={`flex items-center p-1 space-x-1.5 `}>
                                 <BiLike className='text-2xl text-blue-500' />
                                 <span>{like}</span>
                             </button>

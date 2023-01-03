@@ -5,6 +5,8 @@ import Main from "../../pages/Layout/Main";
 import Login from "../../pages/Login-Register/Login/Login";
 import SignUp from "../../pages/Login-Register/Signup/Signup";
 import Media from "../../pages/Media/Media";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
+
 
 export const routes = createBrowserRouter([
     {
@@ -13,7 +15,7 @@ export const routes = createBrowserRouter([
         children: [
             {
                 path: '/',
-                element: <Home/>
+                element: <PrivateRoute><Home/></PrivateRoute>
             },
             {
                 path: '/login',
@@ -25,13 +27,13 @@ export const routes = createBrowserRouter([
             },
             {
                 path: '/media',
-                element: <Media/>
+                element: <PrivateRoute><Media/></PrivateRoute>
             },
             
         ]
     },
     {
         path: '/about',
-        element: <AboutLayout/>
-    }
+        element: <PrivateRoute><AboutLayout/></PrivateRoute>
+    },
 ])

@@ -53,7 +53,7 @@ const Login = () => {
             const data = result.user
             // send to db
             const user = {
-                name: data.displayName,
+                displayName: data.displayName,
                 email: data.email,
             }
     
@@ -69,6 +69,10 @@ const Login = () => {
                 console.log(data);
                 // const email = user.email;
                 // setSignupUserEmail(email);
+                navigate(from, { replace: true });
+            })
+            .catch(e => {
+                console.error(e)
                 navigate(from, { replace: true });
             })
         })

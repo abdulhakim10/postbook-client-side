@@ -5,13 +5,18 @@ import { AuthContext } from '../../contexts/AuthProvider';
 
 
 const ModalBody = ({setShowModal}) => {
-    const {user} = useContext(AuthContext);
+    const {user,  newUser} = useContext(AuthContext);
     const {register, handleSubmit, reset} = useForm();
     const imageHostKey = process.env.REACT_APP_imagebb_key;
+
+    function refreshPage() {
+        window.location.reload(false);
+      }
 
     const handlePUpdate = async(data) => {
         const name = data.name;
         const address = data.address;
+        const phone = data.phone;
         const university = data.university;
         const bio = data.bio;
        
@@ -31,12 +36,13 @@ const ModalBody = ({setShowModal}) => {
         const newImage = img?.data?.url;
         console.log(newImage);
 
-        console.log(name, address, university, bio, newImage)
+        console.log(name, address, university, bio, newImage, phone)
 
         // send to db
         const updatedProfile = {
             displayName: name,
             address,
+            phone,
             university,
             bio,
             photoURL: newImage
@@ -53,7 +59,9 @@ const ModalBody = ({setShowModal}) => {
       .then(data => {
         console.log(data);
         if(data.acknowledged === true){
-            toast.success('Post successfully created!')
+            toast.success('Updated successfully!');
+            setShowModal(false);
+            refreshPage();
         }
       });
       reset();
@@ -69,20 +77,36 @@ const ModalBody = ({setShowModal}) => {
                         <div className="grid grid-cols-6 gap-4 col-span-full lg:col-span-3">
                             <div className="col-span-full sm:col-span-3">
                                 <label for="name" className="text-sm">Name</label>
-                                <input {...register('name')} id="name" type="text" placeholder="name" className="w-full p-1 rounded-md focus:ring focus:ring-opacity-75 focus:ring-blue-400 " />
+                                <input {...register('name',{
+                                value: `${newUser?.displayName}`
+                                })} 
+                                
+                                id="name" type="text" placeholder="name" className="w-full p-1 rounded-md focus:ring focus:ring-opacity-75 focus:ring-blue-400 " />
                             </div>
                             
                             <div className="col-span-full">
                                 <label for="address" className="text-sm">Address</label>
-                                <input {...register('address')} id="address" type="text" placeholder="" className="w-full p-1 rounded-md focus:ring focus:ring-opacity-75 focus:ring-blue-400 " />
+                                <input {...register('address', {
+                                value: `${newUser?.address}`
+                                })} id="address" type="text" placeholder="" className="w-full p-1 rounded-md focus:ring focus:ring-opacity-75 focus:ring-blue-400 " />
+                            </div>
+                            <div className="col-span-full">
+                                <label for="phone" className="text-sm">Phone</label>
+                                <input {...register('phone', {
+                                value: `${newUser?.phone}`
+                                })} id="phone" type="text" placeholder="" className="w-full p-1 rounded-md focus:ring focus:ring-opacity-75 focus:ring-blue-400 " />
                             </div>
                             <div className="col-span-full">
                                 <label for="university" className="text-sm">University</label>
-                                <input {...register('university')} id="university" type="text" placeholder="" className="w-full p-1 rounded-md focus:ring focus:ring-opacity-75 focus:ring-blue-400 " />
+                                <input {...register('university', {
+                                value: `${newUser?.university}`
+                                })} id="university" type="text" placeholder="" className="w-full p-1 rounded-md focus:ring focus:ring-opacity-75 focus:ring-blue-400 " />
                             </div>
                             <div className="col-span-full">
                                 <label for="bio" className="text-sm">Bio</label>
-                                <textarea {...register('bio')} id="bio" placeholder="" className="w-full rounded-md focus:ring focus:ring-opacity-75 focus:ring-blue-400 ">
+                                <textarea {...register('bio', {
+                                value: `${newUser?.bio}`
+                                })} id="bio" placeholder="" className="w-full rounded-md focus:ring focus:ring-opacity-75 focus:ring-blue-400 ">
                                 </textarea>
                             </div>
 
@@ -90,11 +114,13 @@ const ModalBody = ({setShowModal}) => {
                                 <label for='img' className='flex items-center gap-2'>
                                     Photo
                                 </label>
-                                <input {...register('img')} id="img" type="file" accept="image/*" className='' />
+                                <input {...register('img', {
+                                value: `${newUser?.photoURL}`
+                                })} id="img" type="file" accept="image/*" className='' />
                             </div>
                         </div>
                     </fieldset>
-                    <button onClick={setShowModal(true)}
+                    <button 
                         className="bg-blue-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:bg-blue-600 hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                         type="submit"
 

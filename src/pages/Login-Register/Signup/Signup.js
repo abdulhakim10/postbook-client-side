@@ -1,7 +1,7 @@
 import React, { useContext, } from 'react';
 import { useForm } from "react-hook-form";
 import toast from 'react-hot-toast';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../contexts/AuthProvider';
 // import useToken from '../../../hooks/useToken';
 
@@ -13,6 +13,9 @@ const SignUp = () => {
     // const [signupUserEmail, setSignupUserEmail] = useState("");
     // const [token] = useToken(signupUserEmail);
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const from = location.state?.from?.pathname || '/';
 
     // if(token){
     //     navigate('/');
@@ -28,7 +31,7 @@ const SignUp = () => {
         await signUp(email, password, name);
         toast.success('User create successfully');
         reset();
-        navigate('/');
+       
         
         // send to db
         const user = {
@@ -50,6 +53,7 @@ const SignUp = () => {
             // const email = user.email
             // setSignupUserEmail(email);
             // getToken(email);
+            navigate(from, { replace: true });
         })
     }
 
@@ -80,7 +84,7 @@ const SignUp = () => {
             console.log(data);
             // const email = user.email;
             // setSignupUserEmail(email);
-            navigate('/')
+            navigate(from, { replace: true });
         })
     })
         

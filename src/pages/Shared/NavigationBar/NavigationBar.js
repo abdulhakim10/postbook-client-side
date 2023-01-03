@@ -24,18 +24,31 @@ const NavigationBar = () => {
         <div>
             <header className="p-4">
                 <div className="container flex justify-between items-center h-16 mx-auto">
-                    <ul className={`md:flex w-full h-96 md:w-1/5 md:bg-inherit bg-gray-200 text-center p-2 rounded-md md:static absolute duration-500 ease-out ${open ? 'top-[100px] left-0' : 'top-[-470px] left-0'}`}>
-                        <li className="flex justify-center items-center">
-                            <Link rel="noopener noreferrer" to="/" className="flex items-center px-4 -mb-1 border-b-2 border-transparent "><AiFillHome className='text-3xl text-blue-400 hover:text-blue-500 mb-2 md:mb-0' /></Link>
+                    <ul className={`flex flex-wrap w-full item-center md:w-1/5 md:bg-inherit bg-gray-200 text-center p-4 rounded-md md:static absolute duration-500 ease-out ${open ? 'top-[80px] left-0' : 'top-[-470px] left-0'}`}>
+                        <li className=" mb-2">
+                            <Link rel="noopener noreferrer" to="/" className="flex items-center px-4 -mb-1 border-b-2 border-transparent ">
+                                <span className='hover:bg-blue-400 flex gap-2'>
+                                <AiFillHome className='text-3xl text-blue-400 hover:text-blue-500 md:mb-0' />
+                                <p className='md:hidden lg:hidden'>Home</p>
+                                </span>
+                            </Link>
                         </li>
-                        <li className="flex justify-center items-center">
-                            <Link rel="noopener noreferrer" to="/media" className="flex items-center px-4 -mb-1 border-b-2 border-transparent"><AiFillPicture className='text-3xl text-blue-400 hover:text-blue-500 ' /></Link>
+                        <li className=" mb-2">
+                            <Link rel="noopener noreferrer" to="/media" className="flex items-center px-4 -mb-1 border-b-2 border-transparent">
+                                <span className='hover:bg-blue-400 flex gap-2'>
+                            <AiFillPicture className='text-3xl text-blue-400 hover:text-blue-500'/>
+                            <p className='md:hidden lg:hidden'>Media</p>
+                            </span>
+                            </Link>
                         </li>
-                        <li className="flex justify-center items-center">
-                            <Link rel="noopener noreferrer" to="/about" className="flex items-center px-4 -mb-1 border-b-2 border-transparent"><ImProfile className='text-2xl text-blue-400 hover:text-blue-500' /> <p className='md:hidden lg:hidden'>About</p></Link>
+                        <li className=" mb-2">
+                            <Link rel="noopener noreferrer" to="/about" className="flex items-center px-4 -mb-1 border-b-2 border-transparent"><span className='hover:bg-blue-400 flex gap-2'><ImProfile className='text-3xl text-blue-400 hover:text-blue-500' /> <p className='md:hidden lg:hidden'>About</p></span></Link>
                         </li>
+                        {user?.uid &&<li className='md:hidden lg:hidden ml-4 pt-1 flex justify-start'>
+                        <button onClick={handleLogOut} type="button" className=" px-3 py-1 font-semibold rounded  bg-blue-400 hover:bg-blue-500 text-white ">Logout</button>
+                        </li>}
                     </ul>
-                    <Link rel="noopener noreferrer" to="" aria-label="Back to homepage" className="flex items-center p-2">
+                    <Link to='/' rel="noopener noreferrer" aria-label="Back to homepage" className="flex items-center p-2">
                         <img src="https://img.freepik.com/premium-vector/letter-pb-logo_609277-4795.jpg?w=2000" className='md:h-24 md:w-24 h-16 w-16' alt="" />
                         <h2 className="ml-0 md:text-3xl font-semibold text-lg">Postbook</h2>
                     </Link>
@@ -49,18 +62,21 @@ const NavigationBar = () => {
                             <input type="search" name="Search" placeholder="Search..." className="w-32 py-1.5 pl-10 text-sm rounded-md sm:w-auto focus:outline-none bg-gray-300 focus:bg-gray-300" />
                         </div>
                         {user?.uid ?
-                            <button onClick={handleLogOut} type="button" className="hidden px-3 py-1 font-semibold rounded lg:block bg-blue-400 hover:bg-blue-500 text-white">Logout</button>
+                            <button onClick={handleLogOut} type="button" className=" hidden md:block lg:block px-3 py-1 font-semibold rounded  bg-blue-400 hover:bg-blue-500 text-white ">Logout</button>
+                            
                             :
-                            <Link to="/login"><button type="button" className=" px-3 py-1 font-semibold rounded  bg-blue-400 hover:bg-blue-500 text-white">Log in</button></Link>}
-                        {user?.uid ?
+                            <Link to="/login"><button type="button" className=" hidden md:block lg:block px-3 py-1 font-semibold rounded  bg-blue-400  hover:bg-blue-500 text-white">Log in</button></Link>}
+                        <Link to='/about'>
+                        {newUser?.photoURL ?
                             <img alt="" src={newUser?.photoURL} className="object-cover w-9 h-9 rounded-full shadow bg-gray-500 mx-2" />
                             :
-                            <FaUserCircle className='text-4xl text-gray-400' />
+                            <FaUserCircle className='text-4xl text-blue-300' />
                         }
+                        </Link>
                     </div>
                     <div onClick={() => setOpen(!open)} className='h-8 w-8 md:hidden flex'>
                         {
-                            open ? <AiOutlineClose className='text-2xl' /> : <AiOutlineMenu className='text-2xl' />
+                            open ? <AiOutlineClose className='text-3xl' /> : <AiOutlineMenu className='text-3xl' />
                         }
                     </div>
                     {/* <button title="Open menu" type="button" className="p-4 lg:hidden">

@@ -2,17 +2,28 @@ import React, { useContext } from 'react';
 import PostCard from './PostCard';
 import { RiLiveFill } from 'react-icons/ri';
 import { ImImages } from 'react-icons/im';
-import { FaSmile } from 'react-icons/fa';
+import { FaSmile, FaUserCircle } from 'react-icons/fa';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../../../contexts/AuthProvider';
 import moment from 'moment/moment';
 import { toast } from 'react-hot-toast';
+import MediaCard from '../../Media/MediaCard';
+import { useQuery } from '@tanstack/react-query';
 
 
 const PostTimeline = () => {
     const {newUser} = useContext(AuthContext);
     const {user} = useContext(AuthContext);
     const {register, handleSubmit, reset} = useForm();
+
+    const {data : posts = []} = useQuery({
+        queryKey: ['posts'],
+        queryFn: async() => {
+            const res = await fetch('https://postbook-server-side.vercel.app/liked');
+            const data = await res.json();
+            return data;
+        }
+    })
     const imageHostKey = process.env.REACT_APP_imagebb_key;
 
     const postHandler = async(data) => {
@@ -68,8 +79,13 @@ const PostTimeline = () => {
         <div>
             <form onSubmit={handleSubmit(postHandler)} className='my-4 rounded-lg shadow-lg border p-4'>
                 <div className='flex gap-2 my-2'>
-               
-                    <img alt="" src={newUser?.photoURL} className="object-cover w-12 h-12 rounded-full shadow bg-gray-500" />
+                    
+                    {
+                        newUser?.photoURL ?
+                        <img alt="" src={newUser?.photoURL} className="object-cover w-12 h-12 rounded-full shadow bg-gray-500" />
+                            :
+                            <FaUserCircle className='text-6xl text-blue-300' />
+                    }
                     
                 
                     <textarea {...register('ptext', {
@@ -101,7 +117,15 @@ const PostTimeline = () => {
 
                 </div>
             </form>
-            <PostCard />
+            <div className=''>
+            
+            {
+                posts?.map(post => <MediaCard 
+                    key={post._id}
+                    post={post}
+                    />)
+            }
+        </div>
         </div>
     );
 };
